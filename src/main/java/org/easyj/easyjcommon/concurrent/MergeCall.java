@@ -9,7 +9,14 @@ import java.util.function.Supplier;
 import org.easyj.easyjlog.util.LoggerUtil;
 
 /**
- * 合并调用
+ * 合并调用 <br>
+ * 
+ * 使用示例：
+ * <code>
+ * MergeCall.execute("key", () -> {
+ *     return ref.invoke();
+ * });
+ * </code>
  * 
  * @author dengjianjun
  *
@@ -17,7 +24,7 @@ import org.easyj.easyjlog.util.LoggerUtil;
 public class MergeCall {
 
 	// 最大循环次数
-	private static int MAX_CYCLE = 3 * 1000;
+	private static int MAX_CYCLE = 1000;
 
 	// 超时时间（毫秒）
 	private static long MAX_TIMEOUT = 10 * 1000;
@@ -96,7 +103,7 @@ public class MergeCall {
 				if (result != null) {
 					cur = running.decrementAndGet();
 					if (cur == 0) {
-						// 考虑到业务逻辑耗时相对较长，所以删除操作并未与插入操作做同步
+						// 最后一个线程清除缓存，考虑到业务逻辑耗时相对较长，所以删除操作并未与插入操作做同步
 						cache.remove(key);
 					}
 				}
