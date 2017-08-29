@@ -52,6 +52,7 @@ public class MergeCall {
 
 		AtomicInteger running = counter.get(key);
 		if (running == null) {
+			// 初始对应的计数器
 			synchronized (counter) {
 				running = counter.get(key);
 				if (running == null) {
@@ -94,7 +95,7 @@ public class MergeCall {
 							try {
 								Thread.sleep(SLEEP_TIME);
 							} catch (InterruptedException e) {
-								e.printStackTrace();
+								LoggerUtil.warn(e, "线程等待被中断");
 							}
 						}
 					}
@@ -138,7 +139,7 @@ public class MergeCall {
 					cycleCount, cur);
 		}
 
-		return false;
+		return flag;
 	}
 
 }
