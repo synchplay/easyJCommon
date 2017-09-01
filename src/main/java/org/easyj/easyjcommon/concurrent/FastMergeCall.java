@@ -142,8 +142,7 @@ public class FastMergeCall {
 
 		@Override
 		protected int tryAcquireShared(int count) {
-			int current = getState();
-			if (!running && current < 0) {
+			if (!running && getState() < 0) {
 				// 获取共享锁成功
 				return 1;
 			}
@@ -185,8 +184,6 @@ public class FastMergeCall {
 				return;
 			}
 
-			running = false;
-
 			if (value.isPresent() || errorCount.get() > errorLimit) {
 				// 执行完成（成功或超过最大错误次数），开启共享模式
 				setState(-1);
@@ -195,6 +192,8 @@ public class FastMergeCall {
 				// 执行失败且还可重试
 				setState(1);
 			}
+			
+			running = false;
 		}
 
 		public boolean countUpOrAwait() throws InterruptedException {
