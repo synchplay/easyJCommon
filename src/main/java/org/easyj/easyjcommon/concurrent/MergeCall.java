@@ -11,6 +11,7 @@ import org.easyj.easyjlog.util.LoggerUtil;
 /**
  * 合并调用 <br>
  * 
+ * <br>
  * 使用示例：
  * <code>
  * MergeCall.execute("key", () -> {
@@ -27,10 +28,10 @@ public class MergeCall {
 	private static int MAX_CYCLE = 1000;
 
 	// 超时时间（毫秒）
-	private static long MAX_TIMEOUT = 10 * 1000;
+	private static long MAX_TIMEOUT = 3 * 1000;
 
 	// 最大并发请求数，超过部分快速失败
-	private static int MAX_REQUEST = 3 * 1000;
+	private static int MAX_REQUEST = 10000;
 
 	// 睡眠等待时间（毫秒）
 	private static long SLEEP_TIME = 10;
